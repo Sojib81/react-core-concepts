@@ -1,7 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import userEvent from "@testing-library/user-event";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const carList = ["BMW", "Audi", "Ford", "Mercedes", "Ferrari"];
@@ -46,6 +46,7 @@ function App() {
         <h1>Welcome to React page.</h1>
         <h1>Counter</h1>
         <Count></Count>
+        <Users></Users>
         <h2>Carlist</h2>
         <ul>
           {carList.map((cN) => (
@@ -135,4 +136,27 @@ function Count() {
     </div>
   );
 }
+
+function Users() {
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((data) => setUsers(data));
+  });
+  return (
+    <div>
+      <h1>Dynamic Users : {users.length}</h1>
+      <ul>
+        {users.map((uN) => (
+          <li>{uN.name}</li>
+        ))}
+        {users.map((mail) => (
+          <li>Mail Address: {mail.email}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export default App;
